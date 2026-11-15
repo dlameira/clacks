@@ -346,3 +346,45 @@ header[data-tab] { top: 8px !important; left: 8px !important; }
 
 /* mensagem marcada no modo de navegação pelas mensagens */
 #main .zap-msg-sel [data-testid="msg-container"] { outline: 1px solid var(--zap-destaque) !important; outline-offset: 2px !important; }
+
+
+/* ===== Medidas do spotatui (referência visual de todos os apps) =====
+ * linha de 1px num cinza claro, cantos arredondados, título no canto da borda,
+ * borda verde no painel em foco; ~24px das laterais da janela, ~7px entre painéis. */
+:root { --zap-moldura: #7a7a7a; --zap-m-lado: 24px; --zap-m-vert: 22px; --zap-m-entre: 7px; }
+#app div:has(> div#side), #app #main {
+  border: 1px solid var(--zap-moldura) !important; border-radius: 6px !important;
+  position: relative !important; overflow: visible !important; box-sizing: border-box !important;
+}
+#app div:has(> div#side) {
+  margin: calc(var(--zap-m-vert) + 30px + var(--zap-m-entre)) 0 var(--zap-m-vert) var(--zap-m-lado) !important;
+  height: calc(100% - var(--zap-m-vert) * 2 - 30px - var(--zap-m-entre)) !important;
+}
+#app #main {
+  margin: var(--zap-m-vert) var(--zap-m-lado) var(--zap-m-vert) var(--zap-m-entre) !important;
+  height: calc(100% - var(--zap-m-vert) * 2) !important;
+}
+/* menu de cima (zoom 0.75): alinhado à margem lateral */
+header[data-tab] { top: calc(var(--zap-m-vert) / 0.75) !important; left: calc(var(--zap-m-lado) / 0.75) !important; }
+/* títulos no canto da borda */
+#app div:has(> div#side)::before, #app #main::before {
+  position: absolute; top: -0.75em; left: 10px; z-index: 6; padding: 0 6px;
+  background: var(--zap-bg); color: var(--zap-moldura); font: 12px/1.5 var(--zap-fonte); pointer-events: none;
+}
+#app div:has(> div#side)::before { content: "conversas"; }
+#app #main::before { content: "mensagens"; }
+/* painel em foco: borda e título verdes */
+#app div:has(> div#side):focus-within, #app #main:focus-within { border-color: var(--zap-destaque) !important; }
+#app div:has(> div#side):focus-within::before, #app #main:focus-within::before { color: var(--zap-destaque); }
+/* respiro entre o título do painel e a primeira linha */
+#app div:has(> div#side) { padding-top: 8px !important; }
+/* o cabeçalho e o rodapé têm fundo preto: colados na borda, cobriam o título e os cantos arredondados */
+#app #main { padding: 9px 0 6px !important; }
+/* alinhado às linhas do spotatui na janela vizinha (mesma altura de janela):
+ * topo de "mensagens" = topo da busca dele; topo de "conversas" = linha de baixo da busca;
+ * as duas terminam na mesma linha de baixo. */
+:root { --zap-topo: 64px; --zap-topo-lista: 99px; --zap-base: 19px; }
+#app #main { margin-top: var(--zap-topo) !important; margin-bottom: var(--zap-base) !important; height: calc(100% - var(--zap-topo) - var(--zap-base)) !important; }
+#app div:has(> div#side) { margin-top: var(--zap-topo-lista) !important; margin-bottom: var(--zap-base) !important; height: calc(100% - var(--zap-topo-lista) - var(--zap-base)) !important; }
+/* menu de cima no meio da faixa entre as duas linhas (zoom 0.75, 30px de altura) */
+header[data-tab] { top: calc((var(--zap-topo) + (var(--zap-topo-lista) - var(--zap-topo) - 30px) / 2) / 0.75) !important; }
