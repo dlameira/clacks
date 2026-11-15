@@ -35,6 +35,9 @@ Ou fixo: `--load-extension=<caminho do clone>` nas flags do Chromium.
 
 ## Observações
 - Desenvolvimento e teste acontecem num PC com Chromium e WhatsApp logado.
+- **Testar no PC:** depois do push, atualizar o clone do PC de teste com `git pull` (o comando exato está nas instruções
+  do grupo, fora deste repo público) e avisar o que conferir. CSS aparece em ~2 s; JS pede reiniciar o Chromium.
+- `README.md` é para quem instala: manter as instruções de instalar/atualizar e a lista de teclas em dia.
 - Antes de cada push: conferir que não entrou número de telefone, nome de contato ou print de conversa.
 - Parecidos que existem (nenhum faz a navegação por setas): Dark WhatsApp (Stylus), Vimium WhatsApp Helper.
 
@@ -44,7 +47,6 @@ Ou fixo: `--load-extension=<caminho do clone>` nas flags do Chromium.
 - [ ] Às vezes, com o WhatsApp recém-aberto, as 2 primeiras setas não respondem (não reproduzido depois da última correção).
 - [ ] Cores fixas no tema escuro preto; não seguem a troca de tema do sistema.
 - [ ] Remover o bloco desligado da prévia em `carregar.js` e as regras `.zap-previa*` do CSS.
-- [ ] README para quem for instalar.
 
 ## Onde paramos
 2026-11-15 · Primeiro push com o código do PC (v0.3.0). O PC já carrega a extensão direto do clone; testado ali.
