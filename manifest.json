@@ -1,0 +1,38 @@
+{
+  "manifest_version": 3,
+  "name": "zap-terminal",
+  "version": "0.3.0",
+  "description": "WhatsApp Web com cara de terminal/Neovim e navegação só pelo teclado.",
+  "content_scripts": [
+    {
+      "matches": [
+        "https://web.whatsapp.com/*"
+      ],
+      "js": [
+        "system-theme.js",
+        "carregar.js"
+      ],
+      "run_at": "document_start"
+    },
+    {
+      "matches": [
+        "https://web.whatsapp.com/*"
+      ],
+      "js": [
+        "pagina.js"
+      ],
+      "run_at": "document_start",
+      "world": "MAIN"
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "ajustes.css"
+      ],
+      "matches": [
+        "https://web.whatsapp.com/*"
+      ]
+    }
+  ]
+}

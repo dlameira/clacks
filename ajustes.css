@@ -1,0 +1,348 @@
+/* WhatsApp Web com cara de Neovim. Usa os ganchos estáveis do WhatsApp
+ * (#side, #main, #pane-side, data-testid, aria-label), não as classes que mudam.
+ * Substitui a extensão whatsapp-slim do Omarchy (que deixava só as fotos). */
+:root {
+  --zap-bg: #000000;
+  --zap-painel: #050505;
+  --zap-linha: #3a3a3a;
+  --zap-sel: #1c1c1c;
+  --zap-destaque: #82fb9c;
+  --zap-fonte: "JetBrainsMono Nerd Font", "JetBrains Mono", ui-monospace, monospace;
+}
+
+/* Fonte mono em tudo, cantos retos */
+#app, #app * { font-family: var(--zap-fonte) !important; }
+#app *:not(img) { border-radius: 0 !important; }
+/* fotos redondas só na lista, no menu e no cabeçalho da conversa (não nas imagens das mensagens) */
+#pane-side img, #pane-side div:has(> img), header[data-tab] img, header[data-tab] div:has(> img),
+#main header img:not(.emoji), #main header div:has(> img:not(.emoji)) { border-radius: 50% !important; }
+
+/* Fundo preto e sem o desenho atrás da conversa */
+[data-asset-chat-background-dark], [data-asset-chat-background-light] { opacity: 0 !important; }
+#app, #app .two, #side, #pane-side, #main, #main header, #main footer,
+header[data-testid="chatlist-header"], [data-testid="chat-list"], [data-testid="intro-panel"] {
+  background-color: var(--zap-bg) !important;
+}
+
+/* Painéis com borda fina */
+div:has(> div#side) { border: 1px solid var(--zap-linha) !important; margin: 6px 0 6px 6px !important; }
+#main { border: 1px solid var(--zap-linha) !important; margin: 6px !important; }
+#main header, #main footer { border-color: var(--zap-linha) !important; }
+
+/* Some: filtros, banner de notificações, Status, Canais, Comunidades, Meta AI */
+#side span[data-testid="chat-butterbar"],
+header[data-tab] div:has(> span [aria-label="Status"]),
+header[data-tab] div:has(> span [aria-label="Canais"]),
+header[data-tab] div:has(> span [aria-label="Comunidades"]),
+header[data-tab] div:has(> span [aria-label="Meta AI"]),
+header[data-tab] hr {
+  display: none !important;
+}
+
+/* Menu lateral deitado em cima da lista de conversas */
+#app .two { position: relative !important; }
+header[data-tab] {
+  position: absolute !important; top: 6px !important; left: 6px !important; z-index: 5 !important;
+  width: auto !important; min-width: 0 !important; height: 40px !important; padding: 0 !important;
+  background: transparent !important; border: none !important;
+}
+header[data-tab] > div,
+header[data-tab] [data-testid="navbar-primary-section"] > div,
+header[data-tab] [data-testid="navbar-footer-section"] > div {
+  display: flex !important; flex-direction: row !important; align-items: center !important;
+  width: auto !important; height: 40px !important; gap: 2px !important; padding: 0 !important;
+}
+header[data-tab] [data-testid="navbar-primary-section"],
+header[data-tab] [data-testid="navbar-footer-section"] {
+  display: flex !important; width: auto !important; height: 40px !important;
+}
+div:has(> div#side) { margin-top: 40px !important; }
+[data-testid="drawer-middle"], [data-testid="drawer-left"] { border: none !important; }
+
+/* Lista compacta: tudo a 56% (linhas de ~43px em vez de 76px, fotos de ~27px), com o texto
+ * compensado para continuar legível. O zoom vai no painel que rola, senão a
+ * lista se perde ao rolar. */
+#pane-side { zoom: 0.56 !important; }
+#pane-side [data-testid="cell-frame-title"], #pane-side [data-testid="cell-frame-title"] span { font-size: 22px !important; }
+#pane-side [data-testid="cell-frame-secondary"], #pane-side [data-testid="cell-frame-secondary"] span { font-size: 19px !important; }
+#pane-side [data-testid="cell-frame-primary-detail"], #pane-side [data-testid="cell-frame-primary-detail"] span { font-size: 17px !important; }
+#pane-side [data-testid="cell-frame-container"] { background-color: transparent !important; }
+#pane-side [aria-selected="true"] { background-color: var(--zap-sel) !important; box-shadow: inset 3px 0 var(--zap-destaque) !important; }
+[data-testid="icon-unread-count"] { background-color: transparent !important; color: var(--zap-destaque) !important; }
+
+/* Menu de cima no mesmo tamanho reduzido */
+header[data-tab] { zoom: 0.75 !important; }
+
+/* Tela de boas-vindas (sem conversa aberta) vazia */
+[data-testid="intro-panel"] > * { display: none !important; }
+
+/* Mensagens: sem fundo chapado, só contorno fino. As suas têm um cinza bem leve
+ * e contorno mais claro. A cor verde do WhatsApp vem destas variáveis. */
+:root, body, #app {
+  --WDS-systems-bubble-surface-outgoing: #121212 !important;
+  --outgoing-background: #121212 !important;
+  --chat-outgoing-message-bubble-background-color: #121212 !important;
+  --WDS-systems-bubble-surface-incoming: transparent !important;
+  --incoming-background: transparent !important;
+  --chat-incoming-message-bubble-background-color: transparent !important;
+}
+#main [data-testid="msg-container"] { border: 1px solid var(--zap-linha) !important; box-shadow: none !important; }
+#main [data-id^="true_"] [data-testid="msg-container"] { border-color: #5a5a5a !important; }
+#main [data-testid="tail-in"], #main [data-testid="tail-out"], #main span[data-icon^="tail"] { display: none !important; }
+
+/* Janela estreita (metade da tela): lista mais fina, mas com foto e nome */
+@media (max-width: 1100px) {
+  div:has(> div#side) { flex: 0 0 240px !important; min-width: 240px !important; max-width: 240px !important; }
+  div:has(> div#side) > header { display: none !important; }
+  #pane-side { overflow-x: hidden !important; scrollbar-width: none !important; }
+  #pane-side [data-testid="cell-frame-primary-detail"],
+  #pane-side [data-testid="cell-frame-secondary"] { display: none !important; }
+  /* linhas de ~35px e fotos de ~22px, com o nome no mesmo tamanho de antes */
+  #pane-side { zoom: 0.46 !important; }
+  /* 26.09px × 0.46 = 12px, o mesmo tamanho da fonte do terminal (foot, 9pt) */
+  #pane-side [data-testid="cell-frame-title"], #pane-side [data-testid="cell-frame-title"] span { font-size: 26.09px !important; }
+  #app, #app .two { min-width: 0 !important; }
+}
+
+/* Papel de parede da conversa: é uma camada vazia logo no começo do painel */
+#main > div:empty,
+#main > div:not(:has(*)),
+#main [data-testid="conversation-panel-wrapper"] > div:empty {
+  display: none !important;
+  background-image: none !important;
+}
+
+/* Busca: uma linha fina "/ buscar", como num terminal ( / ou Ctrl + Alt + / ) */
+#side > div:first-child {
+  position: relative !important; height: 28px !important; min-height: 0 !important; overflow: hidden !important;
+  padding: 0 !important; background: var(--zap-bg) !important; border-bottom: 1px solid var(--zap-linha) !important;
+}
+#side > div:first-child * { background-color: transparent !important; box-shadow: none !important; border: none !important; }
+#side > div:first-child > *, #side > div:first-child > * > *, #side > div:first-child div:has(> input) {
+  height: 28px !important; min-height: 0 !important; padding: 0 !important; margin: 0 !important;
+}
+#side > div:first-child span[data-icon], #side > div:first-child button { display: none !important; }
+#side input[role="textbox"] { font-size: 12px !important; height: 28px !important; padding: 0 10px 0 26px !important; color: #f2f2f2 !important; }
+#side input[role="textbox"]::placeholder { color: transparent !important; }
+#side > div:first-child::before {
+  content: "/"; position: absolute; left: 12px; top: 0; line-height: 28px; font-size: 12px; color: var(--zap-destaque); pointer-events: none; z-index: 1;
+}
+#side > div:first-child:has(input:placeholder-shown)::after {
+  content: "buscar"; position: absolute; left: 26px; top: 0; line-height: 28px; font-size: 12px; color: #6a6a6a; pointer-events: none;
+}
+
+/* Na busca, some o bloco "Pesquisas recentes" (ficava quebrado na lista estreita) */
+#side > div:first-child > :has(input[role="textbox"]) ~ *,
+#side > div:first-child > * > :has(input[role="textbox"]) ~ * { display: none !important; }
+#side > div:first-child :focus-visible, #side > div:first-child div:has(> input:focus) { outline: none !important; }
+
+/* Prévia da última mensagem ao andar pela lista */
+.zap-previa { position: fixed; z-index: 2147483000; background: var(--zap-bg); border: 1px solid var(--zap-linha); pointer-events: none; font-family: var(--zap-fonte); }
+.zap-previa-topo { height: var(--topo); display: flex; align-items: center; gap: 12px; padding: 0 16px; border-bottom: 1px solid var(--zap-linha); color: #f2f2f2; font-size: 15px; }
+.zap-previa-topo img { width: 40px; height: 40px; border-radius: 50%; }
+.zap-previa-msg { position: absolute; transform: translateY(-13px); max-width: 65%; border: 1px solid var(--zap-linha); padding: 6px 9px 8px; color: #e9edef; font-size: 14.2px; line-height: 19px; white-space: pre-wrap; overflow-wrap: anywhere; }
+.zap-previa-msg.eu { background: #121212; border-color: #5a5a5a; }
+.zap-previa-hora { color: #8a8a8a; font-size: 11px; margin-left: 10px; float: right; margin-top: 6px; }
+/* campo de mensagem desenhado na prévia, para a mensagem ficar na mesma altura de quando a conversa abre */
+.zap-previa::after { content: "Digite uma mensagem"; position: absolute; left: 0; right: 0; bottom: 0; height: 63px; box-sizing: border-box; padding: 0 0 0 64px; display: flex; align-items: center; color: #8a8a8a; font-size: 14px; border-top: 1px solid var(--zap-linha); }
+
+/* Cara de terminal: título do painel na borda, como no herdr e no Cofre */
+div:has(> div#side) { position: relative !important; overflow: visible !important; }
+
+/* conversa com o foco do teclado: barra verde, como a linha do cursor */
+#pane-side [role="row"]:focus-within [aria-selected] { box-shadow: inset 3px 0 var(--zap-destaque) !important; background-color: #161616 !important; }
+#pane-side [role="row"] :focus, #pane-side [role="row"] :focus-visible { outline: none !important; }
+
+/* ajustes finos da busca: sem a lupa, e começando abaixo do título "conversas" */
+#side > div:first-child svg, #side > div:first-child [data-icon] { display: none !important; }
+
+
+/* Cabeçalho da conversa fino: foto pequena, nome em 12px, ícones menores */
+#main header { height: 40px !important; min-height: 0 !important; padding: 0 10px !important; border-bottom: 1px solid var(--zap-linha) !important; }
+#main header img:not(.emoji), #main header div:has(> img:not(.emoji)) { width: 26px !important; height: 26px !important; }
+#main header [role="button"] span[dir="auto"], #main header span[dir="auto"] { font-size: 12px !important; }
+#main header [data-icon] { zoom: 0.75 !important; }
+
+/* Campo de mensagem fino, sem o bloco cinza arredondado: prompt "›" como no terminal */
+#main footer { background: var(--zap-bg) !important; padding: 0 !important; border-top: 1px solid var(--zap-linha) !important; }
+#main footer * { background-color: transparent !important; box-shadow: none !important; }
+#main footer > div, #main footer > div > div { min-height: 0 !important; padding-top: 2px !important; padding-bottom: 2px !important; }
+#main footer [data-icon] { zoom: 0.75 !important; color: #8a8a8a !important; }
+#main footer [contenteditable="true"] { font-size: 12px !important; }
+/* ícones finos no cabeçalho e no campo de mensagem */
+#main header svg, #main footer svg { width: 18px !important; height: 18px !important; }
+#main header [role="button"]:has(svg), #main footer [role="button"]:has(svg), #main footer button:has(svg) { width: 30px !important; height: 30px !important; min-width: 0 !important; padding: 0 !important; }
+#main footer, #main footer * { min-height: 0 !important; }
+#main footer > div { padding: 4px 8px !important; }
+#main footer p, #main footer span, #main footer div[aria-placeholder], #main footer [contenteditable="true"] { font-size: 12px !important; line-height: 18px !important; }
+#main footer > div > div, #main footer > div > div > div { padding-top: 0 !important; padding-bottom: 0 !important; margin-top: 0 !important; margin-bottom: 0 !important; }
+
+/* Mensagens em 12px, como o terminal */
+#main [data-testid="msg-container"] span, #main [data-testid="msg-container"] div[dir="auto"],
+#main [data-testid="msg-container"] .copyable-text { font-size: 12px !important; line-height: 17px !important; }
+#main [data-testid="msg-container"] [data-testid="msg-meta"], #main [data-testid="msg-container"] [data-testid="msg-meta"] span { font-size: 10px !important; }
+
+/* Listas do WhatsApp (Tudo, Não lidas, Favoritas, Grupos e as suas) como abas de texto, estilo terminal */
+#side [role="tablist"] {
+  display: flex !important; flex-wrap: wrap !important; gap: 0 12px !important; align-items: center !important;
+  padding: 4px 10px !important; margin: 0 !important; min-height: 0 !important; height: auto !important;
+  border-bottom: 1px solid var(--zap-linha) !important; background: var(--zap-bg) !important; overflow: visible !important;
+}
+#side [role="tablist"] * { background: transparent !important; border: none !important; box-shadow: none !important; }
+#side [role="tablist"] [role="tab"], #side [role="tablist"] button {
+  padding: 0 !important; margin: 0 !important; height: 20px !important; min-height: 0 !important; min-width: 0 !important;
+  font-size: 12px !important; color: #8a8a8a !important; text-transform: lowercase !important;
+}
+#side [role="tablist"] [role="tab"] *, #side [role="tablist"] button * { font-size: 12px !important; color: inherit !important; padding: 0 !important; }
+#side [role="tablist"] [aria-selected="true"], #side [role="tablist"] [aria-pressed="true"] { color: var(--zap-destaque) !important; }
+#side [role="tablist"] [role="tab"]:hover { color: #f2f2f2 !important; }
+#side [role="tablist"] [role="tab"], #side [role="tablist"] button { display: inline-flex !important; flex-direction: row !important; align-items: center !important; white-space: nowrap !important; }
+#side [role="tablist"] svg { width: 14px !important; height: 14px !important; }
+#side [role="tablist"] [aria-selected="true"], #side [role="tablist"] [aria-pressed="true"] { text-decoration: underline !important; text-underline-offset: 4px !important; }
+
+/* ===== Revisão geral: escala única de tamanhos =====
+ * texto 12px · secundário 11px (cinza) · meta 10px (hora, contadores)
+ * A lista é desenhada com zoom, então lá os valores são compensados:
+ * janela estreita zoom 0.46 → 12px = 26.09 · 11px = 23.91 · 10px = 21.74
+ * janela larga    zoom 0.56 → 12px = 21.43 · 11px = 19.64 · 10px = 17.86 */
+
+/* Conversa, cabeçalho, rodapé, cartões, prévias de link, citações: tudo 12px */
+#main span, #main div, #main p, #main a, #main button,
+#side > div:first-child *, header[data-tab] span { font-size: 12px !important; }
+#main [data-testid="msg-meta"], #main [data-testid="msg-meta"] * { font-size: 10px !important; }
+/* subtítulo do cabeçalho (participantes / visto por último): secundário */
+#main header span[title]:not([data-testid="conversation-info-header-chat-title"]),
+#main header [data-testid="conversation-info-header-chat-title"] ~ * span,
+#main header div:has(> [data-testid="conversation-info-header-chat-title"]) + div span { font-size: 11px !important; color: #8a8a8a !important; }
+
+/* Emoji alinhado ao texto (sem mudar o tamanho: o WhatsApp recorta cada emoji de
+ * uma imagem grande, e redimensionar estraga o recorte) */
+#app img.emoji, #app img[data-plain-text] { vertical-align: -0.25em !important; position: static !important; top: auto !important; }
+
+/* Lista, janela larga */
+#pane-side span, #pane-side div { font-size: 21.43px !important; }
+#pane-side [data-testid="cell-frame-secondary"], #pane-side [data-testid="cell-frame-secondary"] * { font-size: 19.64px !important; color: #8a8a8a !important; }
+#pane-side [data-testid="cell-frame-primary-detail"], #pane-side [data-testid="cell-frame-primary-detail"] *,
+#pane-side [data-testid="icon-unread-count"], #pane-side [data-testid="icon-unread-count"] * { font-size: 17.86px !important; }
+/* nome da comunidade em cima do grupo: secundário */
+#pane-side [data-testid="cell-frame-title"] ~ * span, #pane-side div:has(+ [data-testid="cell-frame-title"]) span,
+#pane-side [role="gridcell"] > div:first-child:not([data-testid]) > span { font-size: 19.64px !important; color: #8a8a8a !important; }
+
+/* Lista, janela estreita (metade da tela) */
+@media (max-width: 1100px) {
+  #pane-side span, #pane-side div { font-size: 26.09px !important; }
+  #pane-side [data-testid="cell-frame-primary-detail"], #pane-side [data-testid="cell-frame-primary-detail"] *,
+  #pane-side [data-testid="icon-unread-count"], #pane-side [data-testid="icon-unread-count"] * { font-size: 21.74px !important; }
+  #pane-side div:has(+ [data-testid="cell-frame-title"]) span,
+  #pane-side [role="gridcell"] > div:first-child:not([data-testid]) > span { font-size: 23.91px !important; color: #8a8a8a !important; }
+}
+/* contador das abas separado do nome ("não lidas 7") */
+#side [role="tablist"] [role="tab"] span:not(:first-child), #side [role="tablist"] button span:not(:first-child) { margin-left: 4px !important; color: var(--zap-destaque) !important; font-size: 10px !important; }
+#side [role="tablist"] [role="tab"] > div > div > div:not(:first-child) { margin-left: 4px !important; }
+#side [role="tablist"] [role="tab"] > div > div > div:not(:first-child) span { color: var(--zap-destaque) !important; font-size: 10px !important; }
+/* nome da comunidade acima do grupo: 9px, para caber nas duas linhas da conversa sem encavalar */
+#pane-side div:has(+ [data-testid="cell-frame-title"]) span,
+#pane-side [role="gridcell"] > div:first-child:not([data-testid]) > span { font-size: 16.07px !important; line-height: 1.1 !important; }
+@media (max-width: 1100px) {
+  #pane-side div:has(+ [data-testid="cell-frame-title"]) span,
+  #pane-side [role="gridcell"] > div:first-child:not([data-testid]) > span { font-size: 19.57px !important; line-height: 1.1 !important; }
+}
+#pane-side [role="gridcell"] div:not([data-testid]):not(:has([data-testid])):has(~ [data-testid="cell-frame-title"]) span,
+#pane-side [role="gridcell"] > div:not([data-testid]):not(:has([data-testid="cell-frame-title"])):not(:has([data-testid="cell-frame-secondary"])) span { font-size: 16.07px !important; line-height: 1.1 !important; color: #8a8a8a !important; }
+@media (max-width: 1100px) {
+  #pane-side [role="gridcell"] div:not([data-testid]):not(:has([data-testid])):has(~ [data-testid="cell-frame-title"]) span,
+  #pane-side [role="gridcell"] > div:not([data-testid]):not(:has([data-testid="cell-frame-title"])):not(:has([data-testid="cell-frame-secondary"])) span { font-size: 19.57px !important; }
+}
+/* rótulo da comunidade (data-testid="cell-frame-label"): 9px cinza */
+#pane-side [data-testid="cell-frame-label"], #pane-side [data-testid="cell-frame-label"] * { font-size: 16.07px !important; line-height: 1.15 !important; color: #8a8a8a !important; }
+@media (max-width: 1100px) {
+  #pane-side [data-testid="cell-frame-label"], #pane-side [data-testid="cell-frame-label"] * { font-size: 19.57px !important; }
+}
+
+/* Nome centralizado na altura da foto, na lista estreita (a 2ª linha fica escondida) */
+@media (max-width: 1100px) {
+  /* nome centralizado na altura da foto (a 2ª linha está escondida nessa largura) */
+  #pane-side [data-testid="cell-frame-container"] > div:nth-child(2) { display: flex !important; flex-direction: column !important; justify-content: center !important; padding-top: 0 !important; padding-bottom: 0 !important; }
+  #pane-side [data-testid="cell-frame-container"] > div:nth-child(2) > [role="gridcell"] { margin: 0 !important; }
+  #pane-side [data-testid="cell-frame-title"] { align-items: center !important; line-height: 1.2 !important; }
+}
+/* aba com o foco do teclado */
+#side [role="tablist"] [role="tab"]:focus-visible, #side [role="tablist"] [role="tab"]:focus { outline: 1px solid var(--zap-destaque) !important; outline-offset: 2px !important; }
+/* busca: o texto digitado começa logo depois do "/", à esquerda (havia um espaço
+ * reservado para a lupa escondida empurrando o campo para o meio) */
+#side > div:first-child div:has(> input[role="textbox"]) {
+  position: absolute !important; left: 0 !important; right: 0 !important; top: 0 !important; width: auto !important;
+}
+#side input[role="textbox"] { width: 100% !important; padding-left: 26px !important; line-height: 28px !important; box-sizing: border-box !important; }
+#side > div:first-child::before, #side > div:first-child:has(input:placeholder-shown)::after { top: 0 !important; line-height: 28px !important; height: 28px !important; }
+
+/* Balões simétricos: 8px em todos os lados (o WhatsApp usa 6/8/8/9) e o horário
+ * na mesma linha do texto (ele puxava 10px para baixo com margem negativa) */
+#main [data-testid="msg-container"] div:has(> div.copyable-text) { padding: 8px 9px 7px 9px !important; }
+#main [data-testid="msg-container"] div:has(> [data-testid="msg-meta"]) { margin: -16px 0 0 4px !important; }
+
+/* emoji do nome no tamanho do texto: zoom encolhe sem estragar o recorte */
+#main header [data-testid="conversation-info-header-chat-title"] img.emoji { zoom: 0.7 !important; }
+/* cabeçalho: nome (16px de linha) + participantes (14px) = 30px, centralizados nos 40px da faixa */
+#main [data-testid="conversation-info-header-chat-title"],
+#main [data-testid="conversation-info-header-chat-title-name"] { line-height: 16px !important; height: 16px !important; }
+#main [data-testid="conversation-info-header-content"] > :not(:first-child),
+#main [data-testid="conversation-info-header-content"] > :not(:first-child) * { line-height: 14px !important; }
+#main [data-testid="conversation-info-header-content"] > :not(:first-child) { height: 14px !important; min-height: 0 !important; overflow: hidden !important; margin: 0 !important; padding: 0 !important; }
+/* foto sempre no centro vertical da linha (nas conversas de comunidade ela ficava no topo) */
+#pane-side [data-testid="cell-frame-container"] { align-items: center !important; }
+#pane-side [data-testid="cell-frame-container"] > div:first-child { align-self: center !important; margin-top: 0 !important; margin-bottom: 0 !important; }
+#pane-side [data-testid="cell-frame-container"] > div:first-child,
+#pane-side [data-testid="cell-frame-container"] > div:first-child > div { display: flex !important; align-items: center !important; align-self: stretch !important; height: auto !important; }
+/* bloco "comunidade + nome" 1px acima, para o centro bater com o da foto */
+#pane-side [role="row"]:has([data-testid="cell-frame-label"]) [data-testid="cell-frame-container"] > div:nth-child(2) { transform: translateY(-2px) !important; }
+#pane-side [role="row"]:has([data-testid="cell-frame-label"]) [data-testid="cell-frame-container"] > div:first-child { transform: translateY(1px) !important; }
+
+/* Rodapé: clipe, figurinha, campo e microfone na mesma linha de centro */
+#main footer button, #main footer [role="button"] { margin-top: 0 !important; margin-bottom: 0 !important; top: auto !important; align-self: center !important; }
+#main footer div:has(> button), #main footer div:has(> [role="button"]), #main footer span:has(> button), #main footer span:has(> [role="button"]) {
+  display: flex !important; align-items: center !important; margin-top: 0 !important; margin-bottom: 0 !important; padding-top: 0 !important; padding-bottom: 0 !important;
+}
+/* o WhatsApp alinha cada ícone pela base, com caixas de alturas diferentes (40px no clipe, 30px na figurinha) */
+#main footer div { align-items: center !important; align-self: center !important; }
+#main footer button span:has(> svg), #main footer [role="button"] span:has(> svg) { display: flex !important; align-items: center !important; justify-content: center !important; height: 30px !important; width: 30px !important; }
+#main footer div:has(> button), #main footer div:has(> span > button) { height: 30px !important; min-height: 0 !important; }
+/* caixa do campo de mensagem: sem a margem de 12px embaixo que deixava o rodapé com 73px */
+#main footer div:has(> div > div > span > div > button[aria-label="Anexar"]),
+#main footer div:has(> div [aria-label="Anexar"]):has([contenteditable="true"]):not(:has(div:has(> div [aria-label="Anexar"]):has([contenteditable="true"]))) {
+  margin: 0 !important; padding: 4px 6px !important;
+}
+#main footer div { margin-bottom: 0 !important; margin-top: 0 !important; }
+#main footer div:has(> button), #main footer div:has(> span > button), #main footer div:has(> div > button) { height: 30px !important; }
+/* painéis cabem inteiros na janela (a margem de 6px somava à altura cheia e cortava a borda de baixo) */
+#main { height: calc(100% - 12px) !important; box-sizing: border-box !important; }
+div:has(> div#side) { height: calc(100% - 46px) !important; box-sizing: border-box !important; }
+/* menu de cima com zoom 0.75: 8px × 0.75 = 6px, alinhado à lista e à conversa */
+header[data-tab] { top: 8px !important; left: 8px !important; }
+
+
+/* ===== Telas de entrada e carregamento, no estilo da tela inicial do LazyVim ===== */
+/* carregamento: só o logo em blocos, uma barra fina e uma linha de status */
+[data-testid="wa-web-loading-screen"] { background: var(--zap-bg) !important; display: flex !important; flex-direction: column !important; align-items: center !important; justify-content: center !important; gap: 18px !important; }
+[data-testid="wa-web-loading-screen"] > * { display: none !important; }
+[data-testid="wa-web-loading-screen"] > div:has(progress) { display: block !important; width: 300px !important; margin: 0 !important; }
+[data-testid="wa-web-loading-screen"] progress { appearance: none !important; -webkit-appearance: none !important; width: 100% !important; height: 2px !important; border: none !important; background: var(--zap-linha) !important; }
+[data-testid="wa-web-loading-screen"] progress::-webkit-progress-bar { background: var(--zap-linha) !important; }
+[data-testid="wa-web-loading-screen"] progress::-webkit-progress-value { background: var(--zap-destaque) !important; }
+[data-testid="wa-web-loading-screen"]::before {
+  content: "██╗    ██╗██╗  ██╗ █████╗ ████████╗███████╗ █████╗ ██████╗ ██████╗\A ██║    ██║██║  ██║██╔══██╗╚══██╔══╝██╔════╝██╔══██╗██╔══██╗██╔══██╗\A ██║ █╗ ██║███████║███████║   ██║   ███████╗███████║██████╔╝██████╔╝\A ██║███╗██║██╔══██║██╔══██║   ██║   ╚════██║██╔══██║██╔═══╝ ██╔═══╝\A ╚███╔███╔╝██║  ██║██║  ██║   ██║   ███████║██║  ██║██║     ██║\A  ╚══╝╚══╝ ╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   ╚══════╝╚═╝  ╚═╝╚═╝     ╚═╝"; white-space: pre; text-align: left; font: 11px/normal var(--zap-fonte); letter-spacing: 0; color: var(--zap-destaque); order: 0;
+}
+[data-testid="wa-web-loading-screen"] > div:has(progress) { order: 1; }
+[data-testid="wa-web-loading-screen"]::after { content: "carregando conversas…"; font: 11px var(--zap-fonte); color: #6a6a6a; order: 2; }
+
+/* entrada (nenhuma conversa aberta): logo + atalhos, como o painel do LazyVim */
+[data-testid="intro-panel"] { display: flex !important; flex-direction: column !important; align-items: center !important; justify-content: center !important; gap: 28px !important; background: var(--zap-bg) !important; }
+[data-testid="intro-panel"]::before {
+  content: "██╗    ██╗██╗  ██╗ █████╗ ████████╗███████╗ █████╗ ██████╗ ██████╗\A ██║    ██║██║  ██║██╔══██╗╚══██╔══╝██╔════╝██╔══██╗██╔══██╗██╔══██╗\A ██║ █╗ ██║███████║███████║   ██║   ███████╗███████║██████╔╝██████╔╝\A ██║███╗██║██╔══██║██╔══██║   ██║   ╚════██║██╔══██║██╔═══╝ ██╔═══╝\A ╚███╔███╔╝██║  ██║██║  ██║   ██║   ███████║██║  ██║██║     ██║\A  ╚══╝╚══╝ ╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   ╚══════╝╚═╝  ╚═╝╚═╝     ╚═╝"; white-space: pre; text-align: left; font: 11px/normal var(--zap-fonte); letter-spacing: 0; color: var(--zap-destaque);
+}
+[data-testid="intro-panel"]::after {
+  content: "buscar conversa                     /\A andar e abrir conversas           ↑ ↓\A escrever mensagem                   →\A voltar para a lista               Esc\A trocar de lista             ↑ no topo\A buscar de qualquer lugar   Ctrl Alt /"; white-space: pre; text-align: left; font: 12px/2 var(--zap-fonte); color: #c8c8c8;
+}
+
+/* mensagem marcada no modo de navegação pelas mensagens */
+#main .zap-msg-sel [data-testid="msg-container"] { outline: 1px solid var(--zap-destaque) !important; outline-offset: 2px !important; }
