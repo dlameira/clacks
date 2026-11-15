@@ -383,8 +383,10 @@ header[data-tab] { top: calc(var(--zap-m-vert) / 0.75) !important; left: calc(va
 /* alinhado às linhas do spotatui na janela vizinha (mesma altura de janela):
  * topo de "mensagens" = topo da busca dele; topo de "conversas" = linha de baixo da busca;
  * as duas terminam na mesma linha de baixo. */
-:root { --zap-topo: 64px; --zap-topo-lista: 99px; --zap-base: 19px; }
+:root { --zap-topo: 38px; --zap-topo-lista: 73px; --zap-base: 45px; }
 #app #main { margin-top: var(--zap-topo) !important; margin-bottom: var(--zap-base) !important; height: calc(100% - var(--zap-topo) - var(--zap-base)) !important; }
 #app div:has(> div#side) { margin-top: var(--zap-topo-lista) !important; margin-bottom: var(--zap-base) !important; height: calc(100% - var(--zap-topo-lista) - var(--zap-base)) !important; }
 /* menu de cima no meio da faixa entre as duas linhas (zoom 0.75, 30px de altura) */
 header[data-tab] { top: calc((var(--zap-topo) + (var(--zap-topo-lista) - var(--zap-topo) - 30px) / 2) / 0.75) !important; }
+/* a lista também tem fundo preto nas linhas: respiro embaixo para não cobrir os cantos */
+#app div:has(> div#side) { padding-bottom: 6px !important; }
