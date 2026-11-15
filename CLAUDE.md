@@ -15,7 +15,7 @@ O projeto se chamava zap-terminal. Os prefixos internos `zap-` (classes, eventos
 
 ## Estrutura
 - `manifest.json`: dois content scripts. `system-theme.js` + `carregar.js` no mundo isolado; `pagina.js` no mundo MAIN.
-- `ajustes.css`: todo o visual (JetBrains Mono 12/11/10px, painéis com borda fina e margens de 6px, lista compacta com
+- `ajustes.css`: todo o visual (JetBrains Mono 12/11/10px, painéis no padrão do spotatui (linha 1px #7a7a7a, cantos de 6px, título na borda, foco verde, margens alinhadas às linhas dele), lista compacta com
   zoom compensado, balões simétricos, telas de carregamento/entrada com "WHATSAPP" em letras de bloco). Usa os ganchos
   mais estáveis do WhatsApp (`#side`, `#main`, `#pane-side`, `data-testid`, papéis ARIA), não as classes geradas.
 - `carregar.js`: injeta o CSS (recarrega a cada 2 s, para desenvolver ao vivo) e o comportamento, em blocos
