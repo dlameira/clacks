@@ -1,10 +1,11 @@
-# zap-terminal
+# clacks
 
 > Repo **público**: nada de dados pessoais, nomes de máquinas, caminhos do PC ou detalhes de infraestrutura aqui.
 
 ## O que é
-Extensão do Chromium (Manifest V3, sem empacotar) que dá ao WhatsApp Web (web.whatsapp.com) cara de terminal/Neovim
-e navegação só pelo teclado.
+Skin para o WhatsApp Web (web.whatsapp.com): extensão do Chromium (Manifest V3, sem empacotar) com cara de terminal e
+atalhos para usar só pelo teclado. Nome: a rede de semáforos que leva mensagens no Discworld (irmão do pearwood).
+Chamava-se zap-terminal até 2026-11-15; os prefixos internos `zap-` (classes, eventos, `data-zap-segurar`) ficaram.
 
 ## Stack
 - JavaScript puro + CSS, sem build e sem dependências.
@@ -42,6 +43,8 @@ Ou fixo: `--load-extension=<caminho do clone>` nas flags do Chromium.
 - Parecidos que existem (nenhum faz a navegação por setas): Dark WhatsApp (Stylus), Vimium WhatsApp Helper.
 
 ## Pendências
+- [ ] Captura de tela para o README, com conversas de exemplo (nunca reais).
+- [ ] Opcional: trocar os prefixos internos `zap-` por `clacks-` (pede retestar tudo).
 - [ ] Retestar o Esc com imagem aberta no modo de mensagens (corrigido, não retestado).
 - [ ] Áudio e documento no modo de navegar mensagens (sem teste).
 - [ ] Às vezes, com o WhatsApp recém-aberto, as 2 primeiras setas não respondem (não reproduzido depois da última correção).
