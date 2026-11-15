@@ -1,0 +1,11 @@
+# segredos
+.env
+.env.*
+*.key
+*.pem
+*.dump
+# sistema
+.DS_Store
+*.swp
+*.zip
+*.crx
