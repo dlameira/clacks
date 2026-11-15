@@ -9,3 +9,5 @@
 *.swp
 *.zip
 *.crx
+# instruções locais do Claude (não públicas)
+CLAUDE.local.md
