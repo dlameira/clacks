@@ -33,6 +33,8 @@ O projeto se chamava zap-terminal. Os prefixos internos `zap-` (classes, eventos
 - Parecidos que existem (nenhum faz a navegação por setas): Dark WhatsApp (Stylus), Vimium WhatsApp Helper.
 
 ## Pendências
+- [ ] Conferir os menus (⋮, clique direito, anexar) e janelas no novo visual; seletores feitos sem ver o DOM ao vivo.
+- [ ] Retestar ↑ rápido na lista (não deve mais entrar no modo de mensagens).
 - [ ] Retestar o Esc com imagem aberta no modo de mensagens (corrigido, não retestado).
 - [ ] Testar áudio e documento no modo de navegar mensagens.
 - [ ] Às vezes, com o WhatsApp recém-aberto, as 2 primeiras setas não respondem (não reproduzido após a última correção).
@@ -42,4 +44,4 @@ O projeto se chamava zap-terminal. Os prefixos internos `zap-` (classes, eventos
 - [ ] Opcional: trocar os prefixos internos `zap-` por `clacks-` (pede retestar tudo).
 
 ## Onde paramos
-2026-11-15 · v0.3.1. Renomeado de zap-terminal para clacks; README reescrito para quem instala; histórico sem e-mail pessoal.
+2026-11-16 · v0.4.1. Menus e janelas no padrão das molduras; ↑ rápido na lista não entra mais na conversa.

@@ -393,7 +393,10 @@
     const a = document.activeElement;
     if (!ativo) {
       // entra no modo: ↑ com o cursor no campo de mensagem vazio
-      if (e.key === "ArrowUp" && a && a === campo() && vazio(a)) {
+      // Mas não no meio da navegação pela lista: subindo rápido, o WhatsApp às vezes joga o
+      // cursor no campo, e o ↑ seguinte entraria na conversa. Aí a seta é da lista (bloco acima).
+      const navegandoLista = Number(document.documentElement.dataset.zapSegurar || 0) > Date.now();
+      if (e.key === "ArrowUp" && !navegandoLista && a && a === campo() && vazio(a)) {
         const lista = mensagens();
         if (!lista.length) return;
         e.preventDefault(); e.stopImmediatePropagation();
