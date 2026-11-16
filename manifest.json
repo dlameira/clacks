@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "clacks",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "description": "Skin para o WhatsApp Web com cara de terminal e atalhos para usar só pelo teclado.",
   "content_scripts": [
     {

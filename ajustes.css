@@ -435,21 +435,21 @@ html.zap-modo-terminal #pane-side [role="row"] > div:not([aria-selected="true"])
 /* ===== Menus internos (⋮, menu da conversa, clique direito, anexar, emoji) e janelas =====
  * No padrão das molduras: fundo preto, linha cinza, cantos de 6px, sem sombra.
  * Item sob o cursor ou o teclado: fundo escuro, texto verde e a barrinha verde da lista. */
-[role="application"]:has(> ul, li, [role="menuitem"], [role="button"]), [role="menu"],
+[role="application"]:not(#main *, #side *, #main, #side):has(> ul, li, [role="menuitem"], [role="button"]), [role="menu"],
 [data-testid="popup-contents"], [data-animate-dropdown-item] {
   background: var(--zap-bg) !important; box-shadow: none !important;
 }
-[role="application"]:has(> ul, li, [role="menuitem"]), [role="menu"] {
+[role="application"]:not(#main *, #side *, #main, #side):has(> ul, li, [role="menuitem"]), [role="menu"] {
   border: 1px solid var(--zap-moldura) !important; border-radius: 6px !important; padding: 4px 0 !important; overflow: hidden !important;
 }
-[role="application"] ul, [role="menu"] ul { padding: 0 !important; background: transparent !important; }
-[role="application"] li, [role="menu"] li, [role="menuitem"] {
+[role="application"]:not(#main *, #side *, #main, #side) ul, [role="menu"] ul { padding: 0 !important; background: transparent !important; }
+[role="application"]:not(#main *, #side *, #main, #side) li, [role="menu"] li, [role="menuitem"] {
   background: transparent !important; min-height: 0 !important; height: auto !important;
   padding: 3px 14px !important; font: 12px/18px var(--zap-fonte) !important; color: #c8c8c8 !important;
 }
-[role="application"] li *, [role="menu"] li *, [role="menuitem"] * { font: inherit !important; color: inherit !important; }
-[role="application"] li svg, [role="menu"] li svg, [role="menuitem"] svg { width: 14px !important; height: 14px !important; }
-[role="application"] li:hover, [role="application"] li:focus, [role="application"] li:focus-within,
+[role="application"]:not(#main *, #side *, #main, #side) li *, [role="menu"] li *, [role="menuitem"] * { font: inherit !important; color: inherit !important; }
+[role="application"]:not(#main *, #side *, #main, #side) li svg, [role="menu"] li svg, [role="menuitem"] svg { width: 14px !important; height: 14px !important; }
+[role="application"]:not(#main *, #side *, #main, #side) li:hover, [role="application"]:not(#main *, #side *, #main, #side) li:focus, [role="application"]:not(#main *, #side *, #main, #side) li:focus-within,
 [role="menu"] li:hover, [role="menu"] li:focus, [role="menuitem"]:hover, [role="menuitem"]:focus {
   background: var(--zap-sel) !important; color: var(--zap-destaque) !important;
   box-shadow: inset 2px 0 var(--zap-destaque) !important; outline: none !important;
