@@ -430,3 +430,20 @@
   new MutationObserver(() => { if (ativo && atual && !atual.isConnected) { ativo = false; atual = null; } })
     .observe(document.documentElement, { childList: true, subtree: true });
 })();
+
+// Modo terminal (Alt+T): alterna a lista de conversas entre a visão com fotos e a visão compacta,
+// uma linha por conversa. A escolha fica guardada neste navegador.
+(() => {
+  const CHAVE = "zap-modo-terminal";
+  const aplicar = (ligado) => document.documentElement.classList.toggle("zap-modo-terminal", ligado);
+  let ligado = false;
+  try { ligado = localStorage.getItem(CHAVE) === "1"; } catch {}
+  aplicar(ligado);
+  window.addEventListener("keydown", (e) => {
+    if (!e.altKey || e.ctrlKey || e.metaKey || e.code !== "KeyT") return;
+    e.preventDefault(); e.stopImmediatePropagation();
+    ligado = !ligado;
+    aplicar(ligado);
+    try { localStorage.setItem(CHAVE, ligado ? "1" : "0"); } catch {}
+  }, true);
+})();

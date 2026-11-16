@@ -23,6 +23,7 @@ WhatsApp Web, que continua fazendo todo o resto.
 | Campo de mensagem vazio | **↑** | entra no modo de navegar pelas mensagens |
 | Navegando mensagens | **↑ / ↓**, **Enter** | escolhe uma mensagem; Enter abre imagem, áudio, link ou documento |
 | Qualquer lugar | **Esc** | volta um nível |
+| Qualquer lugar | **Alt+T** | modo terminal: lista de conversas sem fotos nem prévia, uma linha por conversa (de novo volta ao normal; a escolha fica guardada) |
 
 ## Instalar
 

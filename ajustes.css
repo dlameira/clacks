@@ -349,11 +349,11 @@ header[data-tab] { top: 8px !important; left: 8px !important; }
 
 
 /* ===== Medidas do spotatui (referência visual de todos os apps) =====
- * linha de 1px num cinza claro, cantos arredondados, título no canto da borda,
+ * linha de 2px em #555555, cantos arredondados, título no canto da borda,
  * borda verde no painel em foco; ~24px das laterais da janela, ~7px entre painéis. */
-:root { --zap-moldura: #7a7a7a; --zap-m-lado: 24px; --zap-m-vert: 22px; --zap-m-entre: 7px; }
+:root { --zap-moldura: #555555; --zap-m-lado: 24px; --zap-m-vert: 22px; --zap-m-entre: 7px; }
 #app div:has(> div#side), #app #main {
-  border: 1px solid var(--zap-moldura) !important; border-radius: 6px !important;
+  border: 2px solid var(--zap-moldura) !important; border-radius: 6px !important;
   position: relative !important; overflow: visible !important; box-sizing: border-box !important;
 }
 #app div:has(> div#side) {
@@ -390,3 +390,44 @@ header[data-tab] { top: calc(var(--zap-m-vert) / 0.75) !important; left: calc(va
 header[data-tab] { top: calc((var(--zap-topo) + (var(--zap-topo-lista) - var(--zap-topo) - 30px) / 2) / 0.75) !important; }
 /* a lista também tem fundo preto nas linhas: respiro embaixo para não cobrir os cantos */
 #app div:has(> div#side) { padding-bottom: 6px !important; }
+
+/* ===== Modo terminal (Alt+T): a lista de conversas igual à lista da esquerda do tidemail =====
+ * Linhas de 16px (a altura de uma linha do terminal), texto de 12px, sem fotos nem prévia.
+ * Não lida: branco e negrito. Lida: cinza. Selecionada: barra cinza com texto preto (como o tidemail).
+ * O WhatsApp posiciona as linhas com altura fixa (~72px), então compacta-se com o zoom do painel
+ * (72 × 0.2222 = 16px) e a fonte é compensada (12 / 0.2222 = 54px; medidas internas × 4.5). */
+html.zap-modo-terminal #pane-side { zoom: 0.2222 !important; }
+html.zap-modo-terminal #pane-side [data-testid="cell-frame-container"] > div:first-child,
+html.zap-modo-terminal #pane-side [data-testid="cell-frame-secondary"],
+html.zap-modo-terminal #pane-side [data-testid="cell-frame-primary-detail"],
+html.zap-modo-terminal #pane-side [data-testid="cell-frame-label"],
+html.zap-modo-terminal #pane-side [role="row"] img,
+html.zap-modo-terminal #pane-side [data-testid="cell-frame-title"] [data-icon] { display: none !important; }
+html.zap-modo-terminal #pane-side [data-testid="cell-frame-container"] { height: 72px !important; min-height: 0 !important; background: transparent !important; }
+html.zap-modo-terminal #pane-side [data-testid="cell-frame-container"] > div:nth-child(2) {
+  padding: 0 36px !important; margin: 0 !important; border: 0 !important; transform: none !important;
+  display: flex !important; flex-direction: column !important; justify-content: center !important; height: 72px !important;
+}
+html.zap-modo-terminal #pane-side [data-testid="cell-frame-title"],
+html.zap-modo-terminal #pane-side [data-testid="cell-frame-title"] span {
+  font-size: 54px !important; line-height: 72px !important; font-weight: 400 !important; color: var(--zap-cinza, #7a7a7a) !important;
+  overflow: hidden !important; text-overflow: ellipsis !important; white-space: nowrap !important;
+}
+/* não lida: branco e negrito */
+html.zap-modo-terminal #pane-side [role="row"]:has([data-testid="icon-unread-count"]) [data-testid="cell-frame-title"],
+html.zap-modo-terminal #pane-side [role="row"]:has([data-testid="icon-unread-count"]) [data-testid="cell-frame-title"] span { color: #ffffff !important; font-weight: 700 !important; }
+/* selecionada: barra cinza, texto preto, sem a barrinha verde */
+html.zap-modo-terminal #pane-side [aria-selected="true"],
+html.zap-modo-terminal #pane-side [role="row"]:focus-within [aria-selected] { box-shadow: none !important; background-color: #7a7a7a !important; }
+html.zap-modo-terminal #pane-side [aria-selected="true"] [data-testid="cell-frame-title"],
+html.zap-modo-terminal #pane-side [aria-selected="true"] [data-testid="cell-frame-title"] span,
+html.zap-modo-terminal #pane-side [role="row"]:focus-within [aria-selected] [data-testid="cell-frame-title"] span { color: #000000 !important; }
+html.zap-modo-terminal #pane-side [role="row"]:hover [data-testid="cell-frame-container"] { background: transparent !important; }
+/* modo terminal: texto preto em tudo dentro da linha selecionada; sua própria conversa sem bolinha nem fundo */
+html.zap-modo-terminal #pane-side [aria-selected="true"] *,
+html.zap-modo-terminal #pane-side [role="row"]:focus-within [aria-selected] * { color: #000000 !important; }
+html.zap-modo-terminal #pane-side [role="row"] [data-testid="cell-frame-title"] svg,
+html.zap-modo-terminal #pane-side [role="row"] [data-testid="cell-frame-title"] [role="img"],
+html.zap-modo-terminal #pane-side [role="row"] [data-testid="cell-frame-title"] [data-testid*="avatar"],
+html.zap-modo-terminal #pane-side [role="row"] [data-testid="cell-frame-title"] [style*="background-image"] { display: none !important; }
+html.zap-modo-terminal #pane-side [role="row"] > div:not([aria-selected="true"]) { background-color: transparent !important; }
